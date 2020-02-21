@@ -73,7 +73,20 @@
        </widget>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBoxA"/>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxA">
+        <property name="minimum">
+         <double>-99999999.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>99999999.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.500000000000000</double>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -90,7 +103,17 @@
        </widget>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBoxB"/>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxB">
+        <property name="minimum">
+         <double>-99999999.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>99999999.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.500000000000000</double>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -107,7 +130,20 @@
        </widget>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBoxC"/>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxC">
+        <property name="minimum">
+         <double>-99999999.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>99999999.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.500000000000000</double>
+        </property>
+        <property name="value">
+         <double>-4.000000000000000</double>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -127,7 +163,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>Корни: </string>
+       <string>Корни: не искались</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

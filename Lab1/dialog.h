@@ -16,9 +16,16 @@ public:
     ~Dialog();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_calcButton_clicked();
+
+    void on_doubleSpinBoxA_valueChanged();
+
+    void on_doubleSpinBoxB_valueChanged();
+
+    void on_doubleSpinBoxC_valueChanged();
 
 private:
+    void refreshLabel();
     Ui::Dialog *ui;
 };
 #endif // DIALOG_H
