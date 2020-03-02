@@ -1,5 +1,6 @@
 #include "dialog.h"
 #include "ui_dialog.h"
+#include "math.h"
 
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent)
@@ -38,12 +39,16 @@ void Dialog::on_pushButton_clicked()
 
     ui->memo->clear();
 
+    bool flag = false;
     for (int i = from; i < to; i++) {
-        if (isPrime(i) && isPrime(i + 2))
+        if (isPrime(i) && isPrime(i + 2)) {
+            flag = true;
             ui->memo->appendPlainText(
                 QString::number(i).rightJustified(width, '0')
                 + " - "
                 + QString::number(i + 2).rightJustified(width, '0')
             );
+        }
     }
+    if (flag == false) ui->memo->appendPlainText("на заданном диапазоне близнецов нет");
 }
