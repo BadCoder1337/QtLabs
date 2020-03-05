@@ -36,6 +36,7 @@ void MainWindow::on_actionOpen_triggered()
         QString(),
         QString("Текстовые файлы (*.txt);;Все файлы (*.*)")
     );
+    trigger = "";
     processText();
 }
 
@@ -45,7 +46,6 @@ void MainWindow::on_pushButton_clicked()
     dlg.move(ui->menu->parentWidget()->mapToGlobal(ui->menu->pos() + QPoint(10, 10)));
     if (dlg.exec() == QDialog::Accepted) {
         trigger = dlg.getTrigger();
-        qDebug() << trigger;
         processText();
     }
 }
