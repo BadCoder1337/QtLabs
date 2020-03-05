@@ -4,6 +4,7 @@
 #include "QTextCodec"
 #include "QTextStream"
 #include "QDebug"
+#include "dialog.h"
 
 /*
 Написать программу с окном типа QMainWindow, которое считывает текст из файла и выводит его на экран,
@@ -29,23 +30,38 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(
+    fileName = QFileDialog::getOpenFileName(
         this,
         "Открыть файл",
         QString(),
         QString("Текстовые файлы (*.txt);;Все файлы (*.*)")
     );
-    if (!fileName.isEmpty()) {
-            file.setFileName(fileName);
-            file.open(QIODevice::ReadOnly|QIODevice::Text);
-            while (!file.atEnd())
-            {
-                qDebug() << file.readLine();
-            }
-    }
+    processText();
 }
 
 void MainWindow::on_pushButton_clicked()
 {
+    Dialog dlg;
+    dlg.move(ui->menu->parentWidget()->mapToGlobal(ui->menu->pos() + QPoint(10, 10)));
+    if (dlg.exec() == QDialog::Accepted) {
+        trigger = dlg.getTrigger();
+        qDebug() << trigger;
+        processText();
+    }
+}
 
+void MainWindow::processText() {
+    if (!fileName.isEmpty()) {
+            file.setFileName(fileName);
+            file.open(QIODevice::ReadOnly|QIODevice::Text);
+            ui->listWidget->clear();
+            while (!file.atEnd())
+            {
+                QString line = file.readLine();
+                qDebug() << line;
+                if (line.startsWith(trigger)) {
+                    ui->listWidget->addItem(line);
+                };
+            }
+    }
 }

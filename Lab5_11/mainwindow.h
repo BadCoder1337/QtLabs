@@ -24,5 +24,11 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    QString trigger;
+    QString fileName;
+
+    void processText();
+
 };
 #endif // MAINWINDOW_H

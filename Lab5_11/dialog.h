@@ -15,6 +15,8 @@ public:
     explicit Dialog(QWidget *parent = nullptr);
     ~Dialog();
 
+    QString getTrigger();
+
 private:
     Ui::Dialog *ui;
 };

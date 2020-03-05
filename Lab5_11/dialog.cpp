@@ -12,3 +12,7 @@ Dialog::~Dialog()
 {
     delete ui;
 }
+
+QString Dialog::getTrigger() {
+    return ui->lineEdit->text();
+}
