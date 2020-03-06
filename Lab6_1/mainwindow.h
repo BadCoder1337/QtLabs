@@ -18,11 +18,15 @@ public:
 
     void mousePressEvent(QMouseEvent* event);
     void paintEvent(QPaintEvent* event);
-    void draw();
+    void resizeEvent(QResizeEvent* event);
+    void draw(QPoint pos);
+
+    QPixmap *buffer;
 
 private:
     Ui::MainWindow *ui;
 
-    QPainter &painter;
+    void drawHex(QPainter &pRef, QPoint pos, float sideLength);
+
 };
 #endif // MAINWINDOW_H
