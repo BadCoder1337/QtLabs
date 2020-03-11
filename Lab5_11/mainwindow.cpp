@@ -40,16 +40,6 @@ void MainWindow::on_actionOpen_triggered()
     processText();
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    Dialog dlg;
-    dlg.move(ui->menu->parentWidget()->mapToGlobal(ui->menu->pos() + QPoint(10, 10)));
-    if (dlg.exec() == QDialog::Accepted) {
-        trigger = dlg.getTrigger();
-        processText();
-    }
-}
-
 void MainWindow::processText() {
     if (!fileName.isEmpty()) {
             file.setFileName(fileName);
@@ -60,8 +50,19 @@ void MainWindow::processText() {
                 QString line = file.readLine();
                 qDebug() << line;
                 if (line.startsWith(trigger)) {
-                    ui->listWidget->addItem(line);
+//                    ui->listWidget->addItem(line.left(line.length() - 1));
+                    ui->listWidget->addItem(line.chopped(1));
                 };
             }
+    }
+}
+
+void MainWindow::on_actionSet_triggered()
+{
+    Dialog dlg;
+    dlg.move(ui->menu->parentWidget()->mapToGlobal(ui->menu->pos() + QPoint(10, 10)));
+    if (dlg.exec() == QDialog::Accepted) {
+        trigger = dlg.getTrigger();
+        processText();
     }
 }

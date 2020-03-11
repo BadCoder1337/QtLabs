@@ -20,7 +20,7 @@ public:
 private slots:
     void on_actionOpen_triggered();
 
-    void on_pushButton_clicked();
+    void on_actionSet_triggered();
 
 private:
     Ui::MainWindow *ui;
