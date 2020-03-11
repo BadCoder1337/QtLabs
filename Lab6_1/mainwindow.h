@@ -20,13 +20,14 @@ public:
     void paintEvent(QPaintEvent* event);
     void resizeEvent(QResizeEvent* event);
     void draw(QPoint pos);
+    void refresh(float R, int count);
 
     QPixmap *buffer;
 
 private:
     Ui::MainWindow *ui;
 
-    void drawHex(QPainter &pRef, QPoint pos, float sideLength);
+    void drawHex(QPainter &pRef, QPointF pos, float sideLength, float angle);
 
 };
 #endif // MAINWINDOW_H

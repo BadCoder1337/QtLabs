@@ -8,9 +8,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-
     buffer = nullptr;
     resizeEvent(nullptr);
+
+//    this->setWindowFlags(Qt::WindowStaysOnTopHint);
 }
 
 MainWindow::~MainWindow()
@@ -42,51 +43,61 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
 
 void MainWindow::draw(QPoint pos) {
     buffer->fill(Qt::white);
-    float hexSideLength = this->height() / ui->spinBox->value();
 
     QPainter painter(buffer);
     auto &pRef = painter;
 
     painter.setRenderHint(QPainter::Antialiasing);
 
-    const float hexH = sqrt3by2 * hexSideLength;
+    int height = this->height(),
+        width = this->width();
 
-    int horizCount = qFloor(this->width() / (hexSideLength * 1.5)) + 2,
-        vertCount = qFloor(this->height() / (hexH * 2)) + 2;
+    float R = qMin(height, width) / ui->spinBox->value(),
+          H = sqrt3by2 * R,
+          dx = R * sqrt(3),
+          dy = R * 3 / 2;
 
-    qDebug() << horizCount << " " << vertCount;
+    int rows = int(2 * height / (3 * R)) + 2,
+        columns = int(width / (R * sqrt(3))) + 2,
+        count = 0;
 
-    for (int i = 0; i < horizCount; i++) {
-        for (int j = 0; j < vertCount; j++) {
+    auto center = QPointF(H, 0);
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
             if ((i + j) % 2 == 0)
-                painter.setBrush(Qt::darkGray);
+                painter.setBrush(QColor("#FE6E0E"));
             else
-                painter.setBrush(Qt::lightGray);
-            drawHex(pRef,
-                // pos
-                QPoint(-0.5 * hexSideLength, 0)
-                + QPoint(
-                    i * hexSideLength * 1.5,
-                    (j * 2 + i % 2) * hexH),
-                hexSideLength);
+                painter.setBrush(QColor("#FB9300"));
+
+            drawHex(pRef, center, R, 30);
+
+            count++;
+            refresh(R, count);
+            QThread::msleep(100);
+
+            center += QPointF(dx, 0);
         }
+        center += QPointF(0, dy);
+        if (i % 2)
+            center.setX(H);
+        else
+            center.setX(0);
     }
+}
 
-
+void MainWindow::refresh(float R, int count) {
+    this->setWindowTitle(QString("HoneyCombs L:%1 C:%2").arg(R).arg(count));
     this->repaint();
 }
 
-void MainWindow::drawHex(QPainter &painter, QPoint pos, float sideLength) {
+void MainWindow::drawHex(QPainter &painter, QPointF pos, float hexL, float angle = 30) {
     QPolygonF poly;
 
-    const float hexH = sqrt3by2 * sideLength;
-
-    poly << QPointF(0, 0)
-         << QPointF(0.5 * sideLength, hexH)
-         << QPointF(1.5 * sideLength, hexH)
-         << QPointF(2.0 * sideLength, 0)
-         << QPointF(1.5 * sideLength, -hexH)
-         << QPointF(0.5 * sideLength, -hexH);
+    for (int i = 0; i < 6; ++i) {
+        poly << QPointF(hexL * qCos(qDegreesToRadians(angle)), hexL * qSin(qDegreesToRadians(angle)));
+        angle += 60;
+    }
 
     poly.translate(pos);
 
