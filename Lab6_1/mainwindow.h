@@ -17,15 +17,22 @@ public:
     ~MainWindow();
 
     void mousePressEvent(QMouseEvent* event);
+    void keyPressEvent(QKeyEvent* event);
     void paintEvent(QPaintEvent* event);
     void resizeEvent(QResizeEvent* event);
     void draw(QPoint pos);
-    void refresh(float R, int count);
+    void refresh(int count = 0);
 
     QPixmap *buffer;
+    QPixmap *valInputBuff;
 
 private:
     Ui::MainWindow *ui;
+
+    int N;
+    float R;
+    QString str;
+    bool flag;
 
     void drawHex(QPainter &pRef, QPointF pos, float sideLength, float angle);
 
