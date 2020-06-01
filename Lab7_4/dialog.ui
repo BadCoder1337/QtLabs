@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>382</width>
+    <width>381</width>
     <height>92</height>
    </rect>
   </property>
@@ -16,13 +16,13 @@
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>20</y>
-     <width>341</width>
+     <width>361</width>
      <height>51</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,1,0,1">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,1,0,1,0">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
@@ -65,6 +65,13 @@
      <widget class="QSpinBox" name="spinBoxB">
       <property name="maximum">
        <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="paletteButton">
+      <property name="text">
+       <string>Палитра</string>
       </property>
      </widget>
     </item>

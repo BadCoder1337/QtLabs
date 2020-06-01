@@ -2,15 +2,15 @@
 #include "ui_dialog.h"
 #include "mainwindow.h"
 
+#include <QColorDialog>
+
 Dialog::Dialog(MainWindow *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
     Parent = parent;
-    ui->spinBoxR->setValue(Parent->color.red());
-    ui->spinBoxG->setValue(Parent->color.green());
-    ui->spinBoxB->setValue(Parent->color.blue());
+    initValues();
 }
 
 Dialog::~Dialog()
@@ -18,17 +18,27 @@ Dialog::~Dialog()
     delete ui;
 }
 
-void Dialog::on_spinBoxR_valueChanged(int arg1)
+void Dialog::initValues()
 {
-    Parent->color = QColor(arg1, ui->spinBoxG->value(), ui->spinBoxB->value());
+    auto c = Parent->color;
+    ui->spinBoxR->setValue(c.red());
+    ui->spinBoxG->setValue(c.green());
+    ui->spinBoxB->setValue(c.blue());
 }
 
-void Dialog::on_spinBoxG_valueChanged(int arg1)
+void Dialog::setColor()
 {
-    Parent->color = QColor(ui->spinBoxR->value(), arg1, ui->spinBoxB->value());
+    Parent->color = QColor(ui->spinBoxR->value(), ui->spinBoxG->value(), ui->spinBoxB->value());
 }
 
-void Dialog::on_spinBoxB_valueChanged(int arg1)
+void Dialog::on_spinBoxR_valueChanged(int arg1) { setColor(); }
+
+void Dialog::on_spinBoxG_valueChanged(int arg1) { setColor(); }
+
+void Dialog::on_spinBoxB_valueChanged(int arg1) { setColor(); }
+
+void Dialog::on_paletteButton_clicked()
 {
-    Parent->color = QColor(ui->spinBoxR->value(), ui->spinBoxG->value(), arg1);
+    Parent->color = QColorDialog::getColor();
+    initValues();
 }

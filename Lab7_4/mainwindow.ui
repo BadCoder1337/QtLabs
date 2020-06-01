@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -36,7 +36,6 @@
      <string>Редактирование</string>
     </property>
     <addaction name="actionColorDialog"/>
-    <addaction name="actionColor"/>
     <addaction name="actionAnnul"/>
     <addaction name="actionClear"/>
    </widget>
@@ -65,14 +64,6 @@
     <string>Выход</string>
    </property>
   </action>
-  <action name="actionColor">
-   <property name="text">
-    <string>Выбрать цвет из палитры</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+P</string>
-   </property>
-  </action>
   <action name="actionAnnul">
    <property name="text">
     <string>Отменить</string>
@@ -89,6 +80,9 @@
   <action name="actionColorDialog">
    <property name="text">
     <string>Выбрать цвет</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>
