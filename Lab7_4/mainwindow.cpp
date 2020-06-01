@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QColorDialog"
+#include "dialog.h"
 
 QDataStream& operator <<(QDataStream& ostream, const Circle& c)
 {
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     p[0] = p[1] = QPoint(0,0);
     r = 0;
     color = Qt::darkCyan;
+    dlg = new Dialog(this);
 }
 
 MainWindow::~MainWindow()
@@ -96,9 +98,6 @@ void MainWindow::paintEvent(QPaintEvent *)
 void MainWindow::showDialog()
 {
     color = QColorDialog::getColor();
-    ui->spinBoxR->setValue(color.red());
-    ui->spinBoxG->setValue(color.green());
-    ui->spinBoxB->setValue(color.blue());
 }
 
 void MainWindow::Annul()
@@ -131,17 +130,8 @@ void MainWindow::save()
     file.close();
 }
 
-void MainWindow::on_spinBoxR_valueChanged(int arg1)
+void MainWindow::on_actionColorDialog_triggered()
 {
-    color = QColor(arg1, color.green(), color.blue());
-}
-
-void MainWindow::on_spinBoxG_valueChanged(int arg1)
-{
-    color = QColor(color.red(), arg1, color.blue());
-}
-
-void MainWindow::on_spinBoxB_valueChanged(int arg1)
-{
-    color = QColor(color.red(), color.green(), arg1);
+    dlg->show();
+    dlg->activateWindow();
 }
