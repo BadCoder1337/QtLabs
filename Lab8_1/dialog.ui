@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>381</width>
+    <height>92</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>361</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,1,0,1,0">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+    <item>
+     <widget class="QLabel" name="labelR">
+      <property name="text">
+       <string>R:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="spinBoxR">
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="labelG">
+      <property name="text">
+       <string>G:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="spinBoxG">
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="labelB">
+      <property name="text">
+       <string>B:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="spinBoxB">
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="paletteButton">
+      <property name="text">
+       <string>Палитра</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

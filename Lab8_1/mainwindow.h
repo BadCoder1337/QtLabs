@@ -3,8 +3,9 @@
 
 #include <QMainWindow>
 #include <QtGui>
-#define maxR 5 // максимальное количество строк
-#define maxC 7 // максимальное количество столбцов
+#include "dialog.h"
+#define maxR 30
+#define maxC 100
 #define HEXAGON_SIZE 20
 
 QT_BEGIN_NAMESPACE
@@ -32,10 +33,14 @@ public:
     double w, h;
     double size, x0, y0, r;
     QBrush brush;
+
+    Dialog* dlg;
+    QColor color;
 private:
     Ui::MainWindow *ui;
 private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
+    void on_actionPalette_triggered();
 };
 #endif // MAINWINDOW_H

@@ -1,17 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QtGui"
-#include <QColorDialog>
 #include <QFileDialog>
 
 /*
-1.	Создать приложение, которое расчерчивает окно правильными шестиуголь¬никами (размер – 1/20 высоты окна)
+1.	Создать приложение, которое расчерчивает окно правильными шестиугольниками (размер – 1/20 высоты окна)
 и при щелчке мышью в шестиугольнике закрашивает его цветом,
 выбираемым с помощью немодального диалогового окна с наборными счетчиками (Spin),
 которые позволяют установить интен¬сивности красной, зеленой и синей составляющих цвета.
 Предоставьте воз¬можность сохранять изображение в файле и считывать его из файла.
 Проверку, в какой ячейке пользователь щелкнул мышью, выполнять с помо¬щью областей QRegion!
-
 */
 
 MainWindow::MainWindow(QWidget *parent)
@@ -19,11 +17,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    color = Qt::darkYellow;
     for (int i = 0; i < maxR; ++i)
         for (int j = 0; j < maxC; ++j)
-            Color[i][j] = QColor(0, 100, 100);
-    // Заполняем матрицу начальным цветом
-    previousRows = rows = columns = 0; // начальные размеры сетки
+            Color[i][j] = color;
+    previousRows = rows = columns = 0;
+    dlg = new Dialog(this);
 }
 MainWindow::~MainWindow()
 {
@@ -35,7 +34,7 @@ void MainWindow::resizeEvent(QResizeEvent *)
     w = width();               // ширина рабочего поля
     y0 = centralWidget()->y(); // Верхняя граница клиентской области
     h = height() - y0;         // высота рабочего поля
-    size = qMin(w, h) / HEXAGON_SIZE;
+    size = h / HEXAGON_SIZE;
     // размер одной ячейки (расстояние между двумя противоположными вершинами)
     if (size < 2)
         size = 2;
@@ -143,7 +142,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         for (int j = 0; j < columns; ++j)     // по столбцам
             if (Region[i][j].contains(point)) // если курсор попадает в область
             {
-                Color[i][j] = QColorDialog::getColor(); // выбираем цвет
+                Color[i][j] = color; // выбираем цвет
                 brush = QBrush(Color[i][j]);            // создаем кисть
                 update(Region[i][j]);                   // перерисовываем 6-угольник
                 goto exit;                              // выходим из циклов
@@ -201,4 +200,10 @@ void MainWindow::on_actionOpen_triggered()
         file.close();
     }
     /* Главное окно приложения автоматически перерисовывается при закрытии окна для выбора файла */
+}
+
+void MainWindow::on_actionPalette_triggered()
+{
+    dlg->show();
+    dlg->activateWindow();
 }
