@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     N = 2;
     str = "не задано";
-    flag = false;
 
     refresh();
 }
@@ -57,13 +56,20 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 
     buffer->fill(Qt::white);
 
+    windowPoly.clear();
+    windowPoly 
+        << QPointF(0, 0)
+        << QPointF(width(), 0)
+        << QPointF(width(), height())
+        << QPointF(0, height());
+
     refresh();
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
-        painter.drawPixmap(0, 0, *buffer);
-    }
+    painter.drawPixmap(0, 0, *buffer);
+}
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
@@ -142,12 +148,14 @@ void MainWindow::draw(QPoint pos) {
                 case 2: painter.setBrush(QColor("#FB9300")); break;
                 case 3: painter.setBrush(QColor("#FBCE11")); break;
             }
-            drawHex(pRef, center, R, 30);
+            auto isVisible = drawHex(pRef, center, R, 30);
 
-            count++;
-            refresh(count);
-            QThread::msleep(200 / N);
-
+            if (isVisible) {
+                count++;
+                refresh(count);
+                QThread::msleep(50 / N);
+            }
+            
             center += QPointF(dx, 0);
         }
         center += QPointF(0, dy);
@@ -174,21 +182,21 @@ void MainWindow::refresh(int count) {
 
 void MainWindow::drawText(QString text) {
     QPainter painter(buffer);
-
+    
     if (!painter.isActive()) return;
 
-        painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::Antialiasing);
 
-        auto font = painter.font();
+    auto font = painter.font();
 
-        font.setPointSize(font.pointSize() * 2);
-        painter.setFont(font);
+    font.setPointSize(font.pointSize() * 2);
+    painter.setFont(font);
 
-        painter.setPen(QPen(QColor(100, 0, 100), 3));
+    painter.setPen(QPen(QColor(100, 0, 100), 3));
     painter.drawText(10, 30, text);
 }
 
-void MainWindow::drawHex(QPainter &painter, QPointF pos, float hexL, float angle = 30) {
+bool MainWindow::drawHex(QPainter &painter, QPointF pos, float hexL, float angle = 30) {
     QPolygonF poly;
 
     for (int i = 0; i < 6; ++i) {
@@ -198,5 +206,10 @@ void MainWindow::drawHex(QPainter &painter, QPointF pos, float hexL, float angle
 
     poly.translate(pos);
 
-    painter.drawPolygon(poly);
+    if (poly.intersects(windowPoly)) {
+        painter.drawPolygon(poly);
+        return true;
+    } else {
+        return false;
+    }
 }

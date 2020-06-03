@@ -38,7 +38,8 @@ private:
     QString str;
     bool flag;
 
-    void drawHex(QPainter &pRef, QPointF pos, float sideLength, float angle);
+    bool drawHex(QPainter &pRef, QPointF pos, float sideLength, float angle);
+    QPolygonF windowPoly;
 
 };
 #endif // MAINWINDOW_H
