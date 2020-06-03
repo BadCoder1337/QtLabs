@@ -1,6 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QtGui"
+#include <QLabel>
+#include <QColor>
+
+/*
+1.	Зарисовать окно «пчелиными сотами» (правильными шестиугольниками).
+Процесс зарисовки начинается при нажатии одной из кнопок мыши. 
+Размер стороны шестиугольника - 1/n – ая  часть длины меньшей стороны окна.
+Число разбиений N ввести с клавиатуры.
+Обеспечить контроль правильности ввода и возможность стирания символов, которые введены ошибочно.
+В строке состояния вывести длину стороны шестиугольника и общее количество сот.
+*/
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,8 +19,21 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    flag = false;
+    label1 = new QLabel(ui->statusbar);
+    label1->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    label2 = new QLabel(ui->statusbar);
+    label2->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    QPalette pal = ui->statusbar->palette();
+    pal.setColor(QPalette::Background, QColor(215,220,210));
+    pal.setColor(QPalette::Foreground, QColor(0,50,0));
+    ui->statusbar->setPalette(pal);
+    ui->statusbar->setAutoFillBackground(true);
+    ui->statusbar->setSizeGripEnabled(false);
+    ui->statusbar->addPermanentWidget(label1);
+    ui->statusbar->addPermanentWidget(label2);
+
     buffer = nullptr;
-    valInputBuff = nullptr;
     resizeEvent(nullptr);
 
     N = 2;
@@ -28,10 +52,8 @@ static const float sqrt3by2 = sqrt(3) / 2;
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
     delete buffer;
-    delete valInputBuff;
 
-    buffer = new QPixmap(this->width(), this->height());
-    valInputBuff = new QPixmap(this->width(), this->height());
+    buffer = new QPixmap(width(), height());
 
     buffer->fill(Qt::white);
 
@@ -40,12 +62,8 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 
 void MainWindow::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
-    if (flag) {
         painter.drawPixmap(0, 0, *buffer);
-    } else {
-        painter.drawPixmap(0, 0, *valInputBuff);
     }
-}
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
@@ -71,8 +89,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                         N = 2;
                         str.setNum(N);
                     };
-                    R = qMin(this->height(), this->width()) / N;
+                    R = qMin(height(), width()) / N;
                     flag = true;
+                    buffer->fill(Qt::white);
                 } break;
 
                 case Qt::Key_Backspace: {
@@ -109,8 +128,8 @@ void MainWindow::draw(QPoint pos) {
           dx = R * sqrt(3),
           dy = R * 3 / 2;
 
-    int rows = int(2 * height / (3 * R)) + 2,
-        columns = int(width / (R * sqrt(3))) + 2,
+    int rows = int(height / dy) + 2,
+        columns = int(width / dx) + 2,
         count = 0;
 
     auto center = QPointF(H, 0);
@@ -140,13 +159,23 @@ void MainWindow::draw(QPoint pos) {
 }
 
 void MainWindow::refresh(int count) {
-    this->setWindowTitle(QString("HoneyCombs N:%1 R:%2 C:%3 %4").arg(str).arg(R).arg(count).arg(flag ? "👌" : ""));
+    label1->setText(QString("Длина стороны: %1").arg(N < 3 ? str : QString::number(R)));
+    label2->setText(QString("Количество фигур: %1").arg(count));
 
     if (!flag) {
-        valInputBuff->fill(Qt::white);
         buffer->fill(Qt::white);
+        drawText("Задайте N: " + str);
+    } else if (count == 0) {
+        drawText("Нажмите мышью.");
+    }
 
-        QPainter painter(valInputBuff);
+    repaint();
+}
+
+void MainWindow::drawText(QString text) {
+    QPainter painter(buffer);
+
+    if (!painter.isActive()) return;
 
         painter.setRenderHint(QPainter::Antialiasing);
 
@@ -156,11 +185,7 @@ void MainWindow::refresh(int count) {
         painter.setFont(font);
 
         painter.setPen(QPen(QColor(100, 0, 100), 3));
-        painter.drawText(10, 30, "Задайте N: " + str);
-
-    }
-
-    this->repaint();
+    painter.drawText(10, 30, text);
 }
 
 void MainWindow::drawHex(QPainter &painter, QPointF pos, float hexL, float angle = 30) {
