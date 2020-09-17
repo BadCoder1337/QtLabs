@@ -29,15 +29,12 @@
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
-    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
-     <string>Редактирование</string>
+     <string>Окно</string>
     </property>
-    <addaction name="actionColorDialog"/>
-    <addaction name="actionAnnul"/>
-    <addaction name="actionClear"/>
+    <addaction name="actionPalette"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -59,27 +56,9 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionQuit">
+  <action name="actionPalette">
    <property name="text">
-    <string>Выход</string>
-   </property>
-  </action>
-  <action name="actionAnnul">
-   <property name="text">
-    <string>Отменить</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
-  </action>
-  <action name="actionClear">
-   <property name="text">
-    <string>Очистить</string>
-   </property>
-  </action>
-  <action name="actionColorDialog">
-   <property name="text">
-    <string>Выбрать цвет</string>
+    <string>Палитра</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -87,22 +66,5 @@
   </action>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>actionQuit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

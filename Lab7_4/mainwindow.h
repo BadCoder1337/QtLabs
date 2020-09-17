@@ -25,7 +25,6 @@ public:
 public slots:
     void Annul();
     void Clear();
-    void showDialog();
     void save();
     void open();
 

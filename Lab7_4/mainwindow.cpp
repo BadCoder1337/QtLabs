@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->actionAnnul, SIGNAL(triggered()), this, SLOT(Annul()));
     connect(ui->actionClear, SIGNAL(triggered()), this, SLOT(Clear()));
-    connect(ui->actionColor, SIGNAL(triggered()), this, SLOT(showDialog()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(open()));
     drawMode = false;
@@ -93,11 +92,6 @@ void MainWindow::paintEvent(QPaintEvent *)
         pntPixmap.drawEllipse(p[0],r,r);
         painter.drawPixmap(0, 0, w, h, pixmap);
     }
-}
-
-void MainWindow::showDialog()
-{
-    color = QColorDialog::getColor();
 }
 
 void MainWindow::Annul()

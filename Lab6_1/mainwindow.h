@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QtGui>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,19 +23,23 @@ public:
     void resizeEvent(QResizeEvent* event);
     void draw(QPoint pos);
     void refresh(int count = 0);
+    void drawText(QString text);
 
     QPixmap *buffer;
-    QPixmap *valInputBuff;
 
 private:
     Ui::MainWindow *ui;
 
     int N;
     float R;
+
+    QLabel *label1, *label2; 
+
     QString str;
     bool flag;
 
-    void drawHex(QPainter &pRef, QPointF pos, float sideLength, float angle);
+    bool drawHex(QPainter &pRef, QPointF pos, float sideLength, float angle);
+    QPolygonF windowPoly;
 
 };
 #endif // MAINWINDOW_H
