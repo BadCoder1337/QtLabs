@@ -49,3 +49,7 @@ compile_commands.json
 *creator.user*
 
 **/msvc_make.bat
+Lab3-04-03-client/*
+Lab3-04-03-server/*
+Lab3-05-12-client/*
+Lab3-05-12-server/*
